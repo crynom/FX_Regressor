@@ -2,6 +2,7 @@ import os
 import requests
 from datetime import datetime, timedelta
 import pandas as pd
+import numpy as np
 
 KEY = os.getenv('FXTOKEN')
 PAIR = 'USDJPY'
@@ -23,6 +24,7 @@ class Pair:
         self.mode = mode
         if mode == 'daily': self.ts = self.get_ts(pair, start, end, key, mode)
         elif mode == 'hourly': self.ts = self.get_ts(pair, time0, time1, key, mode)
+        self.logrs = [np.log(self.ts['close'][i] / self.ts['close'][i-1]) for i in range(1, len(self.ts['close']))]
 
     def __repr__(self) -> None:
         return f'{self.pair.upper()}: BASE -> {self.base.upper()}\tPRICE -> {self.price.upper()}'
@@ -47,8 +49,6 @@ class Pair:
             for col in quote:
                 data[col].append(quote[col])
         return data
-    def debug(self) -> None:
-        print()
 
 if __name__ == '__main__':
 
@@ -57,6 +57,6 @@ if __name__ == '__main__':
     pd.DataFrame(eur.ts)
 
     from matplotlib import pyplot as plt
-
+    print(eur.logrs)
     plt.plot(eur.ts['date'], eur.ts['close'])
     plt.show()
