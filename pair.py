@@ -31,7 +31,7 @@ class Pair:
 
     def get_ts(self, pair: str, start: str, end: str, key: str, mode: str = 'daily') -> dict:
         if 'KEY' not in dir():
-            KEY = os.getenv('FXTOKEN')
+            key = os.getenv('FXTOKEN')
         if mode == 'daily':
             requested = requests.get(f'https://marketdata.tradermade.com/api/v1/timeseries?currency={pair.upper()}&api_key={key}&start_date={start.upper()}&end_date={end.upper()}&format=records')
         elif mode == 'hourly':
