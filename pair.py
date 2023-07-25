@@ -30,7 +30,7 @@ class Pair:
         return f'{self.pair.upper()}: BASE -> {self.base.upper()}\tPRICE -> {self.price.upper()}'
 
     def get_ts(self, pair: str, start: str, end: str, key: str, mode: str = 'daily') -> dict:
-        if 'KEY' not in dir():
+        if 'key' not in dir():
             key = os.getenv('FXTOKEN')
         if mode == 'daily':
             requested = requests.get(f'https://marketdata.tradermade.com/api/v1/timeseries?currency={pair.upper()}&api_key={key}&start_date={start.upper()}&end_date={end.upper()}&format=records')
